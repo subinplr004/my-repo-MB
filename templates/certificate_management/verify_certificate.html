@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificate Verification</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-md">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold">🔍 Certificate Verification</h2>
+      <a href="{% url 'dashboard-home' %}" class="text-sm text-blue-600 hover:text-blue-800 underline">← Back to Dashboard</a>
+    </div>
+
+    {% if is_valid %}
+      <div class="text-green-600 font-semibold">✅ Certificate is Valid</div>
+      <p class="mt-2"><strong>Name:</strong> {{ certificate.student.full_name }}</p>
+      <p><strong>Reg No:</strong> {{ certificate.student.reg_no }}</p>
+      <p><strong>Issued On:</strong> {{ certificate.issue_date }}</p>
+      <p><strong>Certificate ID:</strong> {{ certificate.cert_id }}</p>
+
+      {% if certificate.certificate_file %}
+        <a href="{{ certificate.certificate_file.url }}" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          📄 Download Certificate PDF
+        </a>
+      {% endif %}
+    {% else %}
+      <div class="text-red-600 font-semibold">❌ Invalid or Tampered Certificate</div>
+    {% endif %}
+  </div>
+</body>
+</html>

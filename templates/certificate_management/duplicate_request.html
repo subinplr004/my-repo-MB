@@ -1,0 +1,55 @@
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Duplicate Certificate Request</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">📄 Request Duplicate Certificate</h2>
+      <a href="{% url 'dashboard-home' %}" class="text-sm text-blue-600 hover:text-blue-800 underline">← Back to Dashboard</a>
+    </div>
+
+    <!-- Form -->
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Registration Number</label>
+        {{ form.reg_no|add_class:"w-full border border-gray-300 rounded-lg p-2" }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Full Name</label>
+        {{ form.full_name|add_class:"w-full border border-gray-300 rounded-lg p-2" }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Email</label>
+        {{ form.email|add_class:"w-full border border-gray-300 rounded-lg p-2" }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Reason for Request</label>
+        {{ form.reason|add_class:"w-full border border-gray-300 rounded-lg p-2" }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Upload ID Proof (optional)</label>
+        {{ form.id_proof|add_class:"w-full border border-gray-300 rounded-lg p-2 bg-white" }}
+      </div>
+
+      <div class="pt-4">
+        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg shadow">
+          📬 Submit Request
+        </button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

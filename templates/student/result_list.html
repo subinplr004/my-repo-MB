@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-6xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-bold text-gray-800">📊 Student Results</h2>
+      <a href="{% url 'dashboard-home' %}" class="text-sm text-blue-600 hover:text-blue-800 underline">← Back to Dashboard</a>
+    </div>
+
+    <!-- Results Table -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm text-left border-collapse">
+        <thead class="bg-gray-100 text-gray-700 text-sm uppercase tracking-wide">
+          <tr>
+            <th class="py-3 px-4 border-b">Reg No</th>
+            <th class="py-3 px-4 border-b">Name</th>
+            <th class="py-3 px-4 border-b">Exam</th>
+            <th class="py-3 px-4 border-b">Score</th>
+            <th class="py-3 px-4 border-b">Result</th>
+            <th class="py-3 px-4 border-b">Date</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-100">
+          {% for result in results %}
+            <tr class="hover:bg-gray-50">
+              <td class="py-3 px-4 text-gray-700">{{ result.student.reg_no }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ result.student.full_name }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ result.exam_title }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ result.score }}</td>
+              <td class="py-3 px-4">
+                {% if result.result == "PASS" %}
+                  <span class="text-green-600 font-semibold">✅ PASS</span>
+                {% else %}
+                  <span class="text-red-600 font-semibold">❌ FAIL</span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4 text-gray-500">{{ result.date }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

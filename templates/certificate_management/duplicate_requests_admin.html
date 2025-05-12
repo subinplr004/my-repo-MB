@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Duplicate Requests</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-6xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">📋 Duplicate Certificate Requests</h2>
+      <a href="{% url 'dashboard-home' %}" class="text-sm text-blue-600 hover:underline">← Back to Dashboard</a>
+    </div>
+
+    <table class="min-w-full text-sm text-left border">
+      <thead class="bg-gray-100 text-gray-700 font-semibold">
+        <tr>
+          <th class="py-2 px-4">Reg No</th>
+          <th class="py-2 px-4">Name</th>
+          <th class="py-2 px-4">Email</th>
+          <th class="py-2 px-4">Reason</th>
+          <th class="py-2 px-4">ID Proof</th>
+          <th class="py-2 px-4">Status</th>
+          <th class="py-2 px-4">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in requests %}
+        <tr class="border-t">
+          <td class="py-2 px-4">{{ req.reg_no }}</td>
+          <td class="py-2 px-4">{{ req.full_name }}</td>
+          <td class="py-2 px-4">{{ req.email }}</td>
+          <td class="py-2 px-4">{{ req.reason|linebreaksbr }}</td>
+          <td class="py-2 px-4">
+            {% if req.id_proof %}
+              <a href="{{ req.id_proof.url }}" target="_blank" class="text-blue-600 underline">View</a>
+            {% else %}
+              <span class="text-gray-500">None</span>
+            {% endif %}
+          </td>
+          <td class="py-2 px-4">
+            {% if req.status == 'Pending' %}
+              <span class="text-yellow-600 font-semibold">Pending</span>
+            {% elif req.status == 'Approved' %}
+              <span class="text-green-600 font-semibold">Approved</span>
+            {% else %}
+              <span class="text-red-600 font-semibold">Rejected</span>
+            {% endif %}
+          </td>
+          <td class="py-2 px-4 space-x-2">
+            {% if req.status == 'Pending' %}
+              <a href="{% url 'update-duplicate-status' req.id 'Approved' %}"
+                 class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm">Approve</a>
+              <a href="{% url 'update-duplicate-status' req.id 'Rejected' %}"
+                 class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm">Reject</a>
+            {% else %}
+              <span class="text-gray-500">—</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="py-4 px-4 text-center text-gray-500">No duplicate requests found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% load form_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify Certificate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">🔍 Verify Certificate</h2>
+    <a href="{% url 'dashboard-home' %}" class="text-sm text-blue-600 hover:text-blue-800 underline">← Back to Dashboard</a>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      <div>
+        <label class="block mb-1 text-sm font-semibold text-gray-700">Enter Certificate ID</label>
+        <input type="text" name="cert_id" placeholder="e.g., MB-REG123-ABCD12"
+               class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <div class="pt-2">
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg shadow">
+          🔎 Verify
+        </button>
+      </div>
+    </form>
+
+    {% if cert %}
+      <div class="mt-6 p-4 rounded bg-gray-100 border">
+        {% if is_valid %}
+          <p class="text-green-600 font-bold">✅ Certificate is Valid</p>
+          <p>Name: {{ cert.student.full_name }}</p>
+          <p>Reg No: {{ cert.student.reg_no }}</p>
+          <p>Issued On: {{ cert.issue_date }}</p>
+        {% else %}
+          <p class="text-red-600 font-bold">❌ Invalid or Tampered Certificate</p>
+        {% endif %}
+      </div>
+    {% elif is_valid is not none %}
+      <p class="text-red-600 mt-4">❌ Certificate not found</p>
+    {% endif %}
+  </div>
+</body>
+</html>
